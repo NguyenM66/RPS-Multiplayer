@@ -76,12 +76,15 @@
                 <div class="panel panel-info" style="background-color: rgba(245, 245, 245, 0.75);">
                   <div class="panel-heading">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <h3 class="panel-title">Player 1: </h3>
-                    <p id="firstPlayer"></p>
+                    <h3 id="firstPlayer" class="panel-title"></h3>
                   </div>
                   <div class="panel-body" style="height: 150px;">
                     <div class= "text-center">
-                      <p> Waiting for Player to Join...</p>
+                      <p id="p1Waiting"> Waiting for Player to Join...</p>
+                      <p class="rock">Rock</p>
+                      <p class="paper">Paper</p>
+                      <p class="sissors">Sissors</p>
+                      <p id="p1WinLose">Wins: 0 Losses: 0</p>
                     </div>        
                   </div>
                 </div>
@@ -93,8 +96,9 @@
               <div id="status">
                 <div class="panel panel-info" style="background-color: rgba(245, 245, 245, 0.75);">
                   <div class="panel-body" style="height: 210px;">
-                    <div class= "text-center">
-                      
+                    <div class="text-center">
+                      <p class="yourTurn">It's Your Turn!</p>
+                      <p class="waitingTurn">Waiting for Player to choose</p>
                     </div>        
                   </div>
                 </div>
@@ -111,7 +115,11 @@
                   </div>
                   <div class="panel-body" style="height: 150px;">
                     <div class= "text-center">
-                      <p> Waiting for Player to Join...</p>
+                      <p id="p2Waiting"> Waiting for Player to Join...</p>
+                      <p class="rock">Rock</p>
+                      <p class="paper">Paper</p>
+                      <p class="sissors">Sissors</p>
+                      <p id="p2WinLose">Wins: 0 Losses: 0</p>
                     </div>        
                   </div>
                 </div>
