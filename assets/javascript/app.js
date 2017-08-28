@@ -19,6 +19,7 @@
 
 //-------------------------------------------------------------
 
+beforeGame();
  //Capture Submit button click
   $("#startGame").on("click", function(event) {
  	  event.preventDefault();
@@ -44,14 +45,23 @@
   database.ref().on("child_added", function(childSnapshot) {
 
  	  console.log("snapshot", childSnapshot.val());
- 	  console.log(childSnapshot.val().playerName);
+ 	  console.log("Player "+playerCount, childSnapshot.val().playerName);
 
-    //If playerCount == 1 
-    //Full list of items
-    $("#firstPlayer").html("Player 1: " + playerName);
+    //If playerCount == 1 or 2
+    if(playerCount == 1){
+      waitingForPlayer(playerCount);
+      $("#results").hide();
 
-    //else, player count ==2
-    $("#secondPlayer").html("Player 2: " + playerName);
+    }else if(playerCount == 2){
+
+    waitingForPlayer(playerCount);
+
+    }
+
+    //disable add player button if 2 players are present
+    if(playerCount >= 2){
+      $("#startGame").prop("disabled", true);
+    }
     
   //Handles the errors
   }, function(errorObject) {
@@ -66,14 +76,37 @@ function beforeGame() {
   //see waitingForPlayer(player1)
   //see waitingForPlayer(player2)
   //display none rock, paper, sissors
+  $(".p1rock").hide();
+  $(".p1paper").hide();
+  $(".p1sissors").hide();
+  $(".p2rock").hide();
+  $(".p2paper").hide();
+  $(".p2sissors").hide();
   //display none wins & losses
+  $("#p1WinLose").hide();
+  $("#p2WinLose").hide();
   //display non results panel
+  $("#results").hide();
+  
 }
 
 function waitingForPlayer(player) {
   //display none rock, paper, sissors
   //display none wins & losses
+  $("#p"+ playerCount +"Player").html("Player 1: " + playerName);
+  $("#p"+ playerCount +"Waiting").hide();
+  playerPanel(playerCount);
 };
+
+function playerPanel(player) {
+    $(".p"+ player +"rock").show();
+    $(".p"+ player +"paper").show();
+    $(".p"+ player +"sissors").show();
+    //display none wins & losses
+    $("#p"+ player +"WinLose").show();
+    //display non results panel
+    $("#results").show();
+}
 
 //if (playerCount == 1) {
 //  rpsDisplay(player1)
@@ -92,3 +125,4 @@ function waitingForPlayer(player) {
 function rpsDisplay(player) {
   //display rock, paper, sissors for player
 }
+
