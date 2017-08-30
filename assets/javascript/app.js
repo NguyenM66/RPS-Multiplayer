@@ -109,11 +109,13 @@
     //if value exists in playerName
     if(snapshot.child("playerName").exists()) {
       //display player1 name
-      $("#p1Player").html("Player 1: " + playerName);
+      $("#p1Player").html("Player 1: " + snapshot.val().playerName);
       //$("#p2Player").html("Player 2: " + player2.playerName);
-      console.log(player2.playerName);
+      console.log("playerNamep1", snapshot.val().playerName);
       //display waitingForPlayer function with parameter playerNum, which is 1
-      waitingForPlayer("player2", playerCount);
+      waitingForPlayer(playerCount);
+      $("#p1Waiting").hide();
+      $(".p2choice").hide();
     }
     //if value exists in losses
     if(snapshot.child("losses").exists()) {
@@ -141,8 +143,11 @@
   player2.on("value", function(snapshot) {
     if(snapshot.child("playerName").exists()) {
       //$("#p1Player").html("Player 1: " + player1.playerName);
-      $("#p2Player").html("Player 2: " + playerName);
+      $("#p2Player").html("Player 2: " + snapshot.val().playerName);
+      console.log("playerName2", snapshot.val().playerName)
       waitingForPlayer(playerCount);
+      $("#p2Waiting").hide();
+      $(".waitingOpponent").hide();
     }
     if(snapshot.child("losses").exists()) {
       $("#p2Lose").html(snapshot.val().losses);
@@ -166,28 +171,37 @@
 
 //-------------------------------------------------------------
   //Player selects choice rock
-  $(".p"+ playerCount +"rock").on("click", function(event) {
-    console.log("click");
+  $(".rock").on("click", function(event) {
     $(".p"+ playerCount +"paper").hide();
     $(".p"+ playerCount +"sissors").hide();
+    choice = "rock";
+    me.child("choice").set(choice);
+    console.log("rock");
+    choiceResults();
 
-    database.ref().push({
-      playerChoice: Rock,
-    })
+    // database.ref().push({
+    //   playerChoice: Rock,
+    // })
     
   });
   //Player selects choice paper
-  $(".p"+ playerCount +"paper").on("click", function(event) {
-    console.log("click");
+  $(".paper").on("click", function(event) {
     $(".p"+ playerCount +"rock").hide();
     $(".p"+ playerCount +"sissors").hide();
+    choice = "paper";
+    me.child("choice").set(choice);
+    console.log("papper");
+    choiceResults();
     
   });
   //Player selects choice sissors
-  $(".p"+ playerCount +"sissors").on("click", function(event) {
-    console.log("click");
+  $(".sissors").on("click", function(event) {
     $(".p"+ playerCount +"rock").hide();
     $(".p"+ playerCount +"paper").hide();
+    choice = "sissors";
+    me.child("choice").set(choice);
+    console.log("sissors");
+    choiceResults();
     
   });
 //-------------------------------------------------------------
@@ -206,8 +220,7 @@ function beforeGame() {
   $("#p2WinLose").hide();
   //display non results panel
   $(".yourTurn").hide();
-  $(".waitingTurn").hide();
-  
+  $(".waitingOpponent").hide();  
 }
 
 function waitingForPlayer(player) {
@@ -219,24 +232,36 @@ function waitingForPlayer(player) {
 };
 
 function playerShowPanel(player) {
-    rpsShowDisplay(player);
+    
     //display none wins & losses
-    $("#p"+ player +"WinLose").show();
+    //$("#p"+ player +"choice").show();
+    //$("#p"+ player +"WinLose").show();
     //display non results panel
     if(player == 1){
-      $(".waitingTurn").show();
+      $(".waitingOpponent").show();
+      rpsShowDisplay(player);
+      $("#p"+ player +"WinLose").show();
+
     }
     else if(player == 2){
       $(".yourTurn").show();
+      rpsShowDisplay(player)
+      $("#p"+ player +"WinLose").show();
       //whos turn, player1 or player2's turn
     }
 }
 
 function rpsShowDisplay(player) {
   //display rock, paper, sissors for player
-  $(".p"+ player +"rock").show();
-  $(".p"+ player +"paper").show();
-  $(".p"+ player +"sissors").show();
+  $(".rock").show();
+  $(".paper").show();
+  $(".sissors").show();
+}
+function rpsHideDisplay(player) {
+  //display rock, paper, sissors for player
+  $(".rock").hide();
+  $(".paper").hide();
+  $(".sissors").hide();
 }
 
 function choiceResults() {
