@@ -134,7 +134,7 @@
     // if(snapshot.child("choice").exists()) {
     //   $("#p1Choice").html(snapshot.val().choice);
     // }
-    if(snapshot.child("choice").exists() && snapshot.val().numOfPlayers !== playerNum) {
+    if(snapshot.child("choice").exists() && snapshot.val().numOfPlayers != playerNum) {
       opponentChoice = snapshot.val().choice;
       console.log("p1s opponentChoice", opponentChoice);
     }
@@ -162,7 +162,7 @@
     // if(snapshot.child("choice").exists()) {
     //   $("#p1Choice").html(snapshot.val().losses);
     // }
-    if(snapshot.child("choice").exists() && snapshot.val().numOfPlayers !== playerNum) {
+    if(snapshot.child("choice").exists() && snapshot.val().numOfPlayers != playerNum) {
       opponentChoice = snapshot.val().choice;
       console.log("p2s opponentChoice", opponentChoice);
     }
@@ -171,9 +171,9 @@
 
 //-------------------------------------------------------------
   //Player selects choice rock
-  $(".rock").on("click", function(event) {
-    $(".p"+ playerCount +"paper").hide();
-    $(".p"+ playerCount +"sissors").hide();
+  $(".p1rock").on("click", function(event) {
+    $(".p1paper").hide();
+    $(".p1sissors").hide();
     choice = "rock";
     me.child("choice").set(choice);
     console.log("rock");
@@ -185,9 +185,9 @@
     
   });
   //Player selects choice paper
-  $(".paper").on("click", function(event) {
-    $(".p"+ playerCount +"rock").hide();
-    $(".p"+ playerCount +"sissors").hide();
+  $(".p1paper").on("click", function(event) {
+    $(".p1rock").hide();
+    $(".p1sissors").hide();
     choice = "paper";
     me.child("choice").set(choice);
     console.log("papper");
@@ -195,9 +195,44 @@
     
   });
   //Player selects choice sissors
-  $(".sissors").on("click", function(event) {
-    $(".p"+ playerCount +"rock").hide();
-    $(".p"+ playerCount +"paper").hide();
+  $(".p1sissors").on("click", function(event) {
+    $(".p1rock").hide();
+    $(".p1paper").hide();
+    choice = "sissors";
+    me.child("choice").set(choice);
+    console.log("sissors");
+    choiceResults();
+    
+  });
+
+    //Player selects choice rock
+  $(".p2rock").on("click", function(event) {
+    $(".p2paper").hide();
+    $(".p2sissors").hide();
+    choice = "rock";
+    me.child("choice").set(choice);
+    console.log("rock");
+    choiceResults();
+
+    // database.ref().push({
+    //   playerChoice: Rock,
+    // })
+    
+  });
+  //Player selects choice paper
+  $(".p2paper").on("click", function(event) {
+    $(".p2rock").hide();
+    $(".p2sissors").hide();
+    choice = "paper";
+    me.child("choice").set(choice);
+    console.log("papper");
+    choiceResults();
+    
+  });
+  //Player selects choice sissors
+  $(".p2sissors").on("click", function(event) {
+    $(".p2rock").hide();
+    $(".p2paper").hide();
     choice = "sissors";
     me.child("choice").set(choice);
     console.log("sissors");
@@ -253,19 +288,52 @@ function playerShowPanel(player) {
 
 function rpsShowDisplay(player) {
   //display rock, paper, sissors for player
-  $(".rock").show();
-  $(".paper").show();
-  $(".sissors").show();
+  $(".p"+ player +"rock").show();
+  $(".p"+ player +"paper").show();
+  $(".p"+ player +"sissors").show();
 }
 function rpsHideDisplay(player) {
   //display rock, paper, sissors for player
-  $(".rock").hide();
-  $(".paper").hide();
-  $(".sissors").hide();
+  $(".p"+ player +"rock").hide();
+  $(".p"+ player +"paper").hide();
+  $(".p"+ player +"sissors").hide();
 }
 
-function choiceResults() {
-
+function choiceResults() {  
+  console.log("myChoice", choice);
+  if (opponentChoice != "" && choice != "") {
+    if (choice == opponentChoice){
+      console.log("tie");
+    }
+    else if (choice == "rock"){
+      if(opponentChoice =="sissors"){
+      console.log("winner");
+      winner();
+      }else{
+        console("loser");
+        loser();
+      }
+    }
+    else if (choice == "paper"){
+      if(opponentChoice =="rock"){
+      console.log("winner");
+      winner();
+      }else{
+        console.log("loser");
+        loser();
+      }
+    }
+    else if (choice == "sissors"){
+      if(opponentChoice =="papper"){
+        console.log("winner");
+        winner();
+      }else{
+        console("loser");
+        loser();
+      }
+    }
+    
+  }
 }
 
 function winner() {
